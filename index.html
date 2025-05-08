@@ -7,10 +7,25 @@
     <style>
       body { margin: 0; overflow: hidden; }
       #ar-container { width: 100vw; height: 100vh; }
+      #start-button {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 20px 40px;
+        font-size: 18px;
+        z-index: 10;
+        background: #000;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+      }
     </style>
   </head>
   <body>
-    <div id="ar-container">
+    <button id="start-button">Start AR</button>
+    <div id="ar-container" style="display: none;">
       <a-scene
         mindar-image="imageTargetSrc: target.mind; autoStart: true;"
         color-space="sRGB"
@@ -36,5 +51,23 @@
         </a-entity>
       </a-scene>
     </div>
+
+    <script>
+      document.getElementById("start-button").addEventListener("click", () => {
+        document.getElementById("start-button").style.display = "none";
+        document.getElementById("ar-container").style.display = "block";
+      });
+
+      // Debug events
+      document.addEventListener("DOMContentLoaded", () => {
+        const scene = document.querySelector("a-scene");
+        scene.addEventListener("arReady", () => {
+          console.log("✅ AR is ready");
+        });
+        scene.addEventListener("arError", (err) => {
+          console.error("❌ AR failed to start", err);
+        });
+      });
+    </script>
   </body>
 </html>
